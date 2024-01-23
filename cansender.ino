@@ -31,22 +31,27 @@ void setup() {
 
 void loop() {
   //mcp2515_send.sendMessage(&frame);
-  delay(100);
+  delay(400);
 
   Serial.print("attemepting the read again\n");
   struct can_frame theMessage;
   MCP2515::ERROR theError;
 
   if ((theError = mcp2515_recieve.readMessage(&theMessage)) == MCP2515::ERROR_OK) {
-    for (int i = 0; i < theMessage.can_dlc; i+=2) {
-      Serial.print((float)word(theMessage.data[i], theMessage.data[i + 1]));
+    Serial.print("the id was: \t");
+    Serial.print(theMessage.can_id);
+    Serial.print("\n");
+    Serial.print("the length was: \t");
+    Serial.print(theMessage.can_dlc);
+    Serial.print("\n");
+    for (int i = 0; i < theMessage.can_dlc; i++) {
+      Serial.print(theMessage.data[i]);
       Serial.print(" ");
     }
     Serial.print("\n");
   }
   Serial.print("the error was ");
   Serial.print(theError);
-  Serial.print("\n");
-  //put your main code here, to run repeatedly:
+  Serial.print("\n\n");
 
 }
